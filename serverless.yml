@@ -1,0 +1,54 @@
+service: teamtrader
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: eu-west-2
+  vpc:
+    securityGroupIds:
+      - sg-00cc0269
+    subnetIds:
+      - subnet-e2f1f7a8
+      - subnet-5c56bb27
+
+#  iamRoleStatements:
+#    -  Effect: "Allow"
+#       Action: 
+#         - "rds:*"
+
+functions:
+  marketsList:
+    handler: handler.marketsList
+    events: 
+      - http:
+          path: markets
+          method: get
+  marketsGet:
+    handler: handler.marketsGet
+    events: 
+      - http:
+          path: markets/{id}
+          method: get          
+  marketsUpdate:
+    handler: handler.marketsUpdate
+    events: 
+      - http:
+          path: markets/{id}
+          method: put
+  marketsInsert:
+    handler: handler.marketsInsert
+    events: 
+      - http:
+          path: markets
+          method: post
+  teamsInsert:
+    handler: handler.teamsInsert
+    events: 
+      - http:
+          path: teams
+          method: post
